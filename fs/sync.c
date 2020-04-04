@@ -19,7 +19,7 @@
 #include "internal.h"
 
 /* Add a fake user space node */
-bool fsync_enabled = true;
+bool fsync_enabled = false;
 module_param(fsync_enabled, bool, 0644);
 
 /*
