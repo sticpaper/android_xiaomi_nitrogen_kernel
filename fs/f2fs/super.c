@@ -909,11 +909,9 @@ static int f2fs_drop_inode(struct inode *inode)
 			spin_lock(&inode->i_lock);
 			atomic_dec(&inode->i_count);
 		}
-		trace_f2fs_drop_inode(inode, 0);
 		return 0;
 	}
 	ret = generic_drop_inode(inode);
-	trace_f2fs_drop_inode(inode, ret);
 	return ret;
 }
 
@@ -1108,8 +1106,6 @@ int f2fs_sync_fs(struct super_block *sb, int sync)
 		return 0;
 	if (unlikely(is_sbi_flag_set(sbi, SBI_CP_DISABLED)))
 		return 0;
-
-	trace_f2fs_sync_fs(sb, sync);
 
 	if (unlikely(is_sbi_flag_set(sbi, SBI_POR_DOING)))
 		return -EAGAIN;
