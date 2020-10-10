@@ -82,9 +82,6 @@ struct goodix_config_data {
 struct goodix_cfg_info {
 	u8	vendor;
 	const char	*cfg_name;
-#ifdef CONFIG_TOUCH_COUNT_DUMP
-	const char *clicknum_file_name;
-#endif
 };
 
 struct goodix_ts_platform_data {
@@ -115,9 +112,6 @@ struct goodix_ts_platform_data {
 	struct goodix_cfg_info *cfg_info;
 	struct goodix_config_data config;
 	u32 cfg_size;
-#ifdef CONFIG_TOUCH_COUNT_DUMP
-	bool dump_click_count;
-#endif
 };
 
 struct goodix_ts_esd {
@@ -189,9 +183,6 @@ struct goodix_ts_data {
 #endif
 	int irq;
 	int dbclick_count;
-#ifdef CONFIG_TOUCH_COUNT_DUMP
-	char *current_clicknum_file;
-#endif
 };
 
 struct goodix_ts_mode_switch {

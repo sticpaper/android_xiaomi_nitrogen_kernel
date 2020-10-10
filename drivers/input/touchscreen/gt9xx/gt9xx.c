@@ -951,15 +951,7 @@ static int gtp_find_valid_cfg_data(struct goodix_ts_data *ts)
 				continue;
 			}
 	}
-#ifdef CONFIG_TOUCH_COUNT_DUMP
-	if (ts->pdata->dump_click_count) {
-		ts->current_clicknum_file = kzalloc(TOUCH_COUNT_FILE_MAXSIZE, GFP_KERNEL);
-		if (i == ts->pdata->cfg_size)
-			strlcpy(ts->current_clicknum_file, "Unknown", TOUCH_COUNT_FILE_MAXSIZE);
-		else
-			strlcpy(ts->current_clicknum_file, config_info->clicknum_file_name, TOUCH_COUNT_FILE_MAXSIZE);
-	}
-#endif
+
 	if (i == ts->pdata->cfg_size) {
 		if (!ts->pdata->use_default_cfg) {
 			dev_err(&ts->client->dev, "Failed to find matched config data\n");
@@ -1879,9 +1871,7 @@ static int gtp_parse_dt(struct device *dev,
 	of_property_read_u32(np, "goodix,cfg-array-size",
 			     &pdata->cfg_size);
 	dev_info(dev, "cfg_size:%d\n", pdata->cfg_size);
-#ifdef CONFIG_TOUCH_COUNT_DUMP
-	pdata->dump_click_count = of_property_read_bool(np, "goodix,dump-click-count");
-#endif
+
 	pdata->cfg_info = kzalloc(sizeof(struct goodix_cfg_info) * (pdata->cfg_size + 1),
 				GFP_KERNEL);
 	if (pdata->cfg_info == NULL)
@@ -1900,16 +1890,6 @@ static int gtp_parse_dt(struct device *dev,
 			dev_err(dev, "can't read cfg-name\n");
 		} else
 			dev_err(dev, "cfg-name:%s\n", pdata->cfg_info[i].cfg_name);
-#ifdef CONFIG_TOUCH_COUNT_DUMP
-		if (pdata->dump_click_count) {
-			ret = of_property_read_string(sub_np, "goodix,clicknum-file-name",
-				&pdata->cfg_info[i].clicknum_file_name);
-			if (ret) {
-				dev_err(dev, "Unable to read click count file name\n");
-			} else
-				dev_err(dev, "%s\n", pdata->cfg_info[i].clicknum_file_name);
-		}
-#endif
 
 		i++;
 	}
