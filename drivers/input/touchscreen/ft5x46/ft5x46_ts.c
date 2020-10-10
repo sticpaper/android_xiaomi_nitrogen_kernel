@@ -585,15 +585,6 @@ static int ft5x46_load_firmware(struct ft5x46_data *ft5x46,
 			else
 				break;
 	}
-#ifdef CONFIG_TOUCH_COUNT_DUMP
-	if (pdata->dump_click_count) {
-		ft5x46->current_clicknum_file = kzalloc(TOUCH_COUNT_FILE_MAXSIZE, GFP_KERNEL);
-		if (i == pdata->cfg_size)
-			strlcpy(ft5x46->current_clicknum_file, "Unknown", TOUCH_COUNT_FILE_MAXSIZE);
-		else
-			strlcpy(ft5x46->current_clicknum_file, pdata->firmware[i].clicknum_file_name, TOUCH_COUNT_FILE_MAXSIZE);
-	}
-#endif
 
 	if (!ft5x46->dev->of_node && firmware->size == 0) {
 		dev_err(ft5x46->dev, "unknown touch screen vendor, failed!\n");
@@ -2277,9 +2268,6 @@ static int ft5x46_parse_dt(struct device *dev,
 		dev_err(dev, "can't get firmware-array-size\n");
 		return rc;
 	}
-#ifdef CONFIG_TOUCH_COUNT_DUMP
-	pdata->dump_click_count = of_property_read_bool(np, "ft5x46_i2c,dump-click-count");
-#endif
 	pdata->resume_in_workqueue = of_property_read_bool(np, "ft5x46_i2c,resume-in-workqueue");
 
 	pdata->firmware = kzalloc(sizeof(struct ft5x46_firmware_data) * (num_fw + 1),
@@ -2320,16 +2308,7 @@ static int ft5x46_parse_dt(struct device *dev,
 			dev_err(dev, "can't read fw-name\n");
 			return rc;
 		}
-#ifdef CONFIG_TOUCH_COUNT_DUMP
-		if (pdata->dump_click_count) {
-			rc = of_property_read_string(sub_np, "ft5x46_i2c,clicknum-file-name",
-				&pdata->firmware[j].clicknum_file_name);
-			if (rc) {
-				dev_err(dev, "Unable to read click count file name\n");
-			} else
-				dev_err(dev, "%s\n", pdata->firmware[j].clicknum_file_name);
-		}
-#endif
+
 		pdata->firmware[j].size = 0;
 
 		rc = of_property_read_u32(sub_np, "ft5x46_i2c,tx-num", &pdata->testdata[j].tx_num);
