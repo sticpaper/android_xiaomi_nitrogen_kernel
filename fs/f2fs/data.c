@@ -1784,7 +1784,6 @@ static int f2fs_read_data_pages(struct file *file,
 			struct list_head *pages, unsigned nr_pages)
 {
 	struct inode *inode = mapping->host;
-	struct page *page = list_last_entry(pages, struct page, lru);
 
 	/* If the file has inline data, skip readpages */
 	if (f2fs_has_inline_data(inode))
