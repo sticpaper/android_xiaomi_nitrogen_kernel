@@ -52,5 +52,7 @@ if FB || SGI_NEWPORT_CONSOLE
 
 endif
 
+# Klapse-5.0
+source "drivers/video/klapse/Kconfig"
 
 endmenu

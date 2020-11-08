@@ -149,6 +149,10 @@ static uint32_t igc_Table_RGB[IGC_LUT_ENTRIES] = {
 	48, 32, 16, 0
 };
 
+#ifdef CONFIG_KLAPSE
+struct kcal_lut_data *lut_cpy;
+#endif
+
 struct mdss_mdp_ctl *fb0_ctl = 0;
 
 static int mdss_mdp_kcal_store_fb0_ctl(void)
@@ -575,6 +579,29 @@ static int mdss_mdp_kcal_update_queue(struct device *dev)
 	return 0;
 }
 
+#ifdef CONFIG_KLAPSE
+void klapse_kcal_push(int r, int g, int b)
+{
+	lut_cpy->red = r;
+	lut_cpy->green = g;
+	lut_cpy->blue = b;
+
+	mdss_mdp_kcal_update_pcc(lut_cpy);
+}
+
+unsigned short kcal_get_color(unsigned short int code)
+{
+  if (code == 0)
+    return lut_cpy->red;
+  else if (code == 1)
+    return lut_cpy->green;
+  else if (code == 2)
+    return lut_cpy->blue;
+
+  return 0;
+}
+#endif
+
 #if defined(CONFIG_FB) && !defined(CONFIG_MMI_PANEL_NOTIFICATIONS)
 static int fb_notifier_callback(struct notifier_block *nb,
 	unsigned long event, void *data)
@@ -624,6 +651,10 @@ static int kcal_ctrl_probe(struct platform_device *pdev)
 	mdss_mdp_kcal_update_pcc(lut_data);
 	mdss_mdp_kcal_update_pa(lut_data);
 	mdss_mdp_kcal_update_igc(lut_data);
+	
+#ifdef CONFIG_KLAPSE
+	lut_cpy = lut_data;
+#endif
 
 #if defined(CONFIG_MMI_PANEL_NOTIFICATIONS)
 	lut_data->panel_nb.display_on = mdss_mdp_kcal_update_queue;
