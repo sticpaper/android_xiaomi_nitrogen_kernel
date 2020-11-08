@@ -24,13 +24,13 @@
 		qcom,mdss-dsi-panel-model = "TIANMA FHD ILI7807D VIDEO PANEL";
 		qcom,mdss-dsi-panel-sleepwrmod = <0>;
 		qcom,mdss-dsi-panel-type = "dsi_video_mode";
-		qcom,mdss-dsi-panel-framerate = <60>;
+		qcom,mdss-dsi-panel-framerate = <62>;
 		qcom,mdss-dsi-virtual-channel-id = <0>;
 		qcom,mdss-dsi-stream = <0>;
 		qcom,mdss-dsi-panel-width = <1080>;
 		qcom,mdss-dsi-panel-height = <2160>;
-		qcom,mdss-dsi-h-front-porch = <140>;
-		qcom,mdss-dsi-h-back-porch = <148>;
+		qcom,mdss-dsi-h-front-porch = <132>;
+		qcom,mdss-dsi-h-back-porch = <140>;
 		qcom,mdss-dsi-h-pulse-width = <20>;
 		qcom,mdss-dsi-h-sync-skew = <0>;
 		qcom,mdss-dsi-v-back-porch = <36>;
