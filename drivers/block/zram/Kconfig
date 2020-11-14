@@ -35,3 +35,9 @@ config ZRAM_MEMORY_TRACKING
 	  /sys/kernel/debug/zram/zramX/block_state.
 
 	  See Documentation/blockdev/zram.txt for more information.
+
+config ZRAM_ALGORITHM
+	string "Default ZRAM Compressor"
+	default "lzo"
+	help
+	  ZRAM default algorithm.
