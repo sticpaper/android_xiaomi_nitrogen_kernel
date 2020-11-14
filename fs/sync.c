@@ -18,8 +18,17 @@
 #include <linux/backing-dev.h>
 #include "internal.h"
 
+/* Add a fake user space node */
 bool fsync_enabled = true;
 module_param(fsync_enabled, bool, 0644);
+
+/*
+ * Warnings:
+ * Please do not try to close Fsync unless you have done a data backup
+ * Otherwise, it is not recommended that you turn off Fsync.
+ */
+bool fsync_on = true;
+module_param(fsync_on, bool, 0644);
 
 #define VALID_FLAGS (SYNC_FILE_RANGE_WAIT_BEFORE|SYNC_FILE_RANGE_WRITE| \
 			SYNC_FILE_RANGE_WAIT_AFTER)
@@ -161,7 +170,7 @@ SYSCALL_DEFINE1(syncfs, int, fd)
 	struct super_block *sb;
 	int ret;
 
-	if (!fsync_enabled)
+	if (!fsync_on)
 		return 0;
 
 	f = fdget(fd);
@@ -192,7 +201,7 @@ int vfs_fsync_range(struct file *file, loff_t start, loff_t end, int datasync)
 {
 	struct inode *inode = file->f_mapping->host;
 
-	if (!fsync_enabled)
+	if (!fsync_on)
 		return 0;
 
 	if (!file->f_op->fsync)
@@ -226,7 +235,7 @@ static int do_fsync(unsigned int fd, int datasync)
 	struct fd f;
 	int ret = -EBADF;
 
-	if (!fsync_enabled)
+	if (!fsync_on)
 		return 0;
 
 	f = fdget(fd);
@@ -304,7 +313,7 @@ SYSCALL_DEFINE4(sync_file_range, int, fd, loff_t, offset, loff_t, nbytes,
 	loff_t endbyte;			/* inclusive */
 	umode_t i_mode;
 
-	if (!fsync_enabled)
+	if (!fsync_on)
 		return 0;
 
 	ret = -EINVAL;
