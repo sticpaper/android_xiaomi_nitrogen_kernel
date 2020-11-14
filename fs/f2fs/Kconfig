@@ -111,3 +111,9 @@ config F2FS_FILE_TRACE
 	  File system tracking
 
 	  If unsure, say N.
+
+config F2FS_MIN_BLOCK_FSYNC
+	int "Default Smallest Fsync block"
+	default 8
+	help
+	  This definition sets the minimum number of fsync blocks of the file system.
