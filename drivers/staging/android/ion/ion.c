@@ -1009,7 +1009,7 @@ struct ion_client *ion_client_create(struct ion_device *dev,
 		char buf[256], *path;
 
 		path = dentry_path(dev->clients_debug_root, buf, 256);
-		pr_err("Failed to create client debugfs at %s/%s\n",
+		pr_debug("Failed to create client debugfs at %s/%s\n",
 			path, client->display_name);
 	}
 
