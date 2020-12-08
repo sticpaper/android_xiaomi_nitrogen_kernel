@@ -263,6 +263,7 @@
 		qcom,mdss-pan-physical-width-dimension = <68>;
 		qcom,mdss-pan-physical-height-dimension = <144>;
 		qcom,mdss-dsi-tx-eot-append;
+		qcom,panel-allow-phy-poweroff;
 		qcom,ulps-enabled;
 		qcom,esd-err-irq-gpio = <&tlmm 59 0x2001>;
 		qcom,esd-check-enabled;
