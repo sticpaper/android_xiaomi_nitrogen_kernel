@@ -1,0 +1,16 @@
+###### Stic-Builder-Jenkins ######
+devices = nitrogen,platina
+defconfig_a = paper-nitrogen_defconfig,paper-platina_defconfig
+aosp_defconfig_b = nitrogen_user_defconfig,platina_user_defconfig
+host = Tianjin-stic-server-open-host (builder@stic-server-sq183)
+toolchain = /home/work/devices/sdm660/msm-4.4/toolchain/
+clang = <toolchain>/clang/google-clang/bin/clang
+gcc = <toolchain>/stic-gcc/bin/
+aarch64_gcc = <gcc>/aarch64-linux-gnu-
+arm32_gcc = <gcc>/arm-linux-gnueabi-
+text = "正在编译小米MAX 3 , 小米 8 青春版"
+aosp_text = "正在编译小米MAX 3 , 小米 8 青春版"
+error = "由于服务器硬盘空间不足,无法编译出包,暂停发布"
+aosp_text_error = "由于服务器硬盘空间不足,无法编译出包,暂停发布"
+out = /home/work/devices/sdm660/msm-4.4/anykernel/Paper-<devices>-<version>-<md5>.zip
+###### Stic-Builder-Jenkins ######
