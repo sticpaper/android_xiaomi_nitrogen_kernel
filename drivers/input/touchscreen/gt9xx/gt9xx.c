@@ -2356,10 +2356,7 @@ static int gtp_probe(struct i2c_client *client, const struct i2c_device_id *id)
 		goto exit_powermanager;
 	}
 
-	ret = gtp_proc_init(&client->dev.kobj);
-	if (ret) {
-		dev_info(&client->dev, "symlink proc sysfs fail");
-	}
+	gtp_proc_init(&client->dev.kobj);
 
 #ifdef CONFIG_TOUCHSCREEN_GT9XX_DEBUG
 

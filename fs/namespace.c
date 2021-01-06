@@ -2826,11 +2826,7 @@ long do_mount(const char *dev_name, const char __user *dir_name,
 	if (retval)
 		goto dput_out;
 
-/*  Default to relatime unless overriden
-	The default setting is noatime, 
-	which can reduce the CPU performance 
-	overhead when writing a large number of files
- */
+	/* Normally, the last access time is recorded by default, we don't need it */
 	if (!(flags & MS_RELATIME))
 		mnt_flags |= MNT_NOATIME;
 
