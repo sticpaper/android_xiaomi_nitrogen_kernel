@@ -162,9 +162,9 @@ static struct usb_interface_descriptor rndis_qc_control_intf = {
 	/* .bInterfaceNumber = DYNAMIC */
 	/* status endpoint is optional; this could be patched later */
 	.bNumEndpoints =	1,
-	.bInterfaceClass =	USB_CLASS_MISC,
-	.bInterfaceSubClass =   0x04,
-	.bInterfaceProtocol =   0x01, /* RNDIS over ethernet */
+	.bInterfaceClass =	USB_CLASS_WIRELESS_CONTROLLER,
+	.bInterfaceSubClass =   0x01,
+	.bInterfaceProtocol =   0x03, /* RNDIS over ethernet */
 	/* .iInterface = DYNAMIC */
 };
 
@@ -223,9 +223,9 @@ rndis_qc_iad_descriptor = {
 	.bDescriptorType =	USB_DT_INTERFACE_ASSOCIATION,
 	.bFirstInterface =	0, /* XXX, hardcoded */
 	.bInterfaceCount =	2, /* control + data */
-	.bFunctionClass =	USB_CLASS_MISC,
-	.bFunctionSubClass =	0x04,
-	.bFunctionProtocol =	0x01, /* RNDIS over ethernet */
+	.bFunctionClass =	USB_CLASS_WIRELESS_CONTROLLER,
+	.bFunctionSubClass =	0x01,
+	.bFunctionProtocol =	0x03, /* RNDIS over ethernet */
 	/* .iFunction = DYNAMIC */
 };
 
@@ -330,33 +330,14 @@ static struct usb_endpoint_descriptor rndis_qc_ss_notify_desc = {
 	.bInterval =		RNDIS_QC_LOG2_STATUS_INTERVAL_MSEC + 4,
 };
 
-static struct usb_ss_ep_comp_descriptor ss_intr_comp_desc = {
-	.bLength =		sizeof(ss_intr_comp_desc),
-	.bDescriptorType =	USB_DT_SS_ENDPOINT_COMP,
-
-	/* the following 3 values can be tweaked if necessary */
-	/* .bMaxBurst =		0, */
-	/* .bmAttributes =	0, */
-	.wBytesPerInterval =	cpu_to_le16(RNDIS_QC_STATUS_BYTECOUNT),
-};
-
 static struct usb_ss_ep_comp_descriptor rndis_qc_ss_intr_comp_desc = {
-	.bLength =		sizeof(ss_intr_comp_desc),
+	.bLength =		sizeof(rndis_qc_ss_intr_comp_desc),
 	.bDescriptorType =	USB_DT_SS_ENDPOINT_COMP,
 
 	/* the following 3 values can be tweaked if necessary */
 	/* .bMaxBurst =		0, */
 	/* .bmAttributes =	0, */
 	.wBytesPerInterval =	cpu_to_le16(RNDIS_QC_STATUS_BYTECOUNT),
-};
-
-static struct usb_ss_ep_comp_descriptor ss_bulk_comp_desc = {
-	.bLength =		sizeof(ss_bulk_comp_desc),
-	.bDescriptorType =	USB_DT_SS_ENDPOINT_COMP,
-
-	/* the following 2 values can be tweaked if necessary */
-	/* .bMaxBurst =		0, */
-	/* .bmAttributes =	0, */
 };
 
 static struct usb_endpoint_descriptor rndis_qc_ss_in_desc = {
@@ -378,7 +359,7 @@ static struct usb_endpoint_descriptor rndis_qc_ss_out_desc = {
 };
 
 static struct usb_ss_ep_comp_descriptor rndis_qc_ss_bulk_comp_desc = {
-	.bLength =		sizeof(ss_bulk_comp_desc),
+	.bLength =		sizeof(rndis_qc_ss_bulk_comp_desc),
 	.bDescriptorType =	USB_DT_SS_ENDPOINT_COMP,
 
 	/* the following 2 values can be tweaked if necessary */
