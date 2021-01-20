@@ -151,9 +151,14 @@ static inline ssize_t f2fs_listxattr(struct dentry *dentry, char *buffer,
 {
 	return -EOPNOTSUPP;
 }
+#ifdef CONFIG_F2FS_FS_XATTR
 static int f2fs_init_xattr_caches(struct f2fs_sb_info *sbi) { return 0; }
 static void f2fs_destroy_xattr_caches(struct f2fs_sb_info *sbi) { }
-#endif
+#else
+static inline int f2fs_init_xattr_caches(struct f2fs_sb_info *sbi) { return 0; }
+static inline void f2fs_destroy_xattr_caches(struct f2fs_sb_info *sbi) { }
+#endif /* CONFIG_F2FS_FS_XATTR -- down */
+#endif /* CONFIG_F2FS_FS_XATTR -- up */
 
 #ifdef CONFIG_F2FS_FS_SECURITY
 extern int f2fs_init_security(struct inode *, struct inode *,
