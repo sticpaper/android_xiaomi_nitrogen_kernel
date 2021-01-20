@@ -2,6 +2,10 @@
 devices = nitrogen,platina
 defconfig_a = paper-nitrogen_defconfig,paper-platina_defconfig
 aosp_defconfig_b = nitrogen_user_defconfig,platina_user_defconfig
+write_config = "CONFIG_LOCALVERSION_AUTO=y"
+write_config_error = "=y配置已存在,跳过覆盖"
+git_commit_read = "git rev-parse --verify --short=7 HEAD 2>/dev/null"
+git_kernel_head = "kernel-g<git_commit_read>"
 host = Tianjin-stic-server-open-host (builder@stic-server-sq183)
 toolchain = /home/work/devices/sdm660/msm-4.4/toolchain/
 clang = <toolchain>/clang/google-clang/bin/clang
