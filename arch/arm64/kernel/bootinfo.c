@@ -13,14 +13,11 @@
 #include <linux/kernel.h>
 #include <linux/init.h>
 #include <linux/fs.h>
-#include <linux/proc_fs.h>
-#include <linux/seq_file.h>
 #include <linux/string.h>
 #include <asm/setup.h>
 #include <asm/bootinfo.h>
 #include <linux/bitops.h>
 #include <linux/input/qpnp-power-on.h>
-#include <soc/qcom/socinfo.h>
 
 #define PMIC_NUM (16)
 static int pmic_v[PMIC_NUM];
@@ -242,38 +239,6 @@ static struct attribute_group attr_group = {
 	.attrs = g,
 };
 
-static int cpumaxfreq_show(struct seq_file *m, void *v)
-{
-	/* value is used for setting cpumaxfreq */
-	switch (get_hw_version_platform()) {
-	case HARDWARE_PLATFORM_NITROGEN:
-		seq_printf(m, "1.8\n");
-		break;
-	case HARDWARE_PLATFORM_JASON:
-	case HARDWARE_PLATFORM_PLATINA:
-		seq_printf(m, "2.2\n");
-		break;
-	default:
-		seq_printf(m, "1.0\n");
-		pr_err("Unknown hardware version\n");
-		break;
-	}
-
-	return 0;
-}
-
-static int cpumaxfreq_open(struct inode *inode, struct file *file)
-{
-	return single_open(file, &cpumaxfreq_show, NULL);
-}
-
-static const struct file_operations proc_cpumaxfreq_operations = {
-	.open       = cpumaxfreq_open,
-	.read       = seq_read,
-	.llseek     = seq_lseek,
-	.release    = seq_release,
-};
-
 static int __init bootinfo_init(void)
 {
 	int ret = -ENOMEM;
@@ -290,7 +255,6 @@ static int __init bootinfo_init(void)
 		pr_err("bootinfo_init: subsystem_register failed\n");
 		goto sys_fail;
 	}
-	proc_create("cpumaxfreq", 0, NULL, &proc_cpumaxfreq_operations);
 
 	return ret;
 
