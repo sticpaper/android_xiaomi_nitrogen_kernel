@@ -7,4 +7,3 @@ f2fs-$(CONFIG_F2FS_STAT_FS) += debug.o
 CFLAGS_debug.o += -DCONFIG_DEBUG_FS
 f2fs-$(CONFIG_F2FS_FS_XATTR) += xattr.o
 f2fs-$(CONFIG_F2FS_FS_POSIX_ACL) += acl.o
-f2fs-$(CONFIG_F2FS_IO_TRACE) += trace.o

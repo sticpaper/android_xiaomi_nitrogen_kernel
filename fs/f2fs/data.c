@@ -22,7 +22,6 @@
 #include "f2fs.h"
 #include "node.h"
 #include "segment.h"
-#include "trace.h"
 #include <trace/events/f2fs.h>
 #ifdef CONFIG_F2FS_FILE_TRACE
 #include <trace/events/android_fs.h>
@@ -491,8 +490,6 @@ int f2fs_submit_page_bio(struct f2fs_io_info *fio)
 			META_GENERIC : DATA_GENERIC_ENHANCE)))
 		return -EFSCORRUPTED;
 
-	f2fs_trace_ios(fio, 0);
-
 	/* Allocate a new bio */
 	bio = __bio_alloc(fio->sbi, fio->new_blkaddr, fio->io_wbc,
 				1, is_read_io(fio->op), fio->type, fio->temp);
@@ -523,8 +520,6 @@ int f2fs_merge_page_bio(struct f2fs_io_info *fio)
 	if (!f2fs_is_valid_blkaddr(fio->sbi, fio->new_blkaddr,
 			__is_meta_io(fio) ? META_GENERIC : DATA_GENERIC))
 		return -EFSCORRUPTED;
-
-	f2fs_trace_ios(fio, 0);
 
 	if (bio && (*fio->last_block + 1 != fio->new_blkaddr ||
 			!__same_bdev(fio->sbi, fio->new_blkaddr, bio))) {
@@ -627,7 +622,6 @@ alloc_new:
 		wbc_account_io(fio->io_wbc, bio_page, PAGE_SIZE);
 
 	io->last_block_in_bio = fio->new_blkaddr;
-	f2fs_trace_ios(fio, 0);
 
 skip:
 	if (fio->in_list)

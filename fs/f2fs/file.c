@@ -29,7 +29,6 @@
 #include "xattr.h"
 #include "acl.h"
 #include "gc.h"
-#include "trace.h"
 #include <trace/events/f2fs.h>
 
 static int f2fs_filemap_fault(struct vm_area_struct *vma,
@@ -319,7 +318,6 @@ flush_out:
 	}
 	f2fs_update_time(sbi, REQ_TIME);
 out:
-	f2fs_trace_ios(NULL, 1);
 	return ret;
 }
 
